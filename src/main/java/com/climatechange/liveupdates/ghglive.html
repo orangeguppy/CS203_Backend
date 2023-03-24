@@ -1,0 +1,30 @@
+<title> Live greenhouse gas updates </title>
+<link rel = "stylesheet" href=""
+
+
+<body>
+    <h1> Since 2010, the world has emitted </h1>
+    <p>
+        Emission Count: <strong id="ghgEmissionCount">0</strong>
+    </p>
+
+    <script>
+        function startLiveUpdate () {
+            const emissionCount = document.getElementById('ghgEmissionCount');
+
+            setInterval(function () {
+                fetch('emissions.php').then(function(response) {
+                    return response.json(); // converts plaintext json into javascript object
+                }).then (function(data) {  // passes data in emissions.php into function
+                    emissionCount.textContent = data.ghgEmissionCount;
+                }).catch(function(error) {  // error handling
+                    console.log(error);
+                })
+            }, 2000); // updates every 2 seconds 
+        }
+
+        document.addEventListener('DOMContentLoaded', function() { 
+            startLiveUpdate();
+        });     // start function once document has been uploaded
+    </script>
+</body>
